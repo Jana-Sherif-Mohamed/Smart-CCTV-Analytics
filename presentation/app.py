@@ -41,7 +41,9 @@ st.set_page_config(
 )
 
 CUSTOM_CSS = """
-/* ---- KPI / Overview text ---- */
+
+<style>
+    /* ---- KPI / Overview text ---- */
 div[data-testid="stMetric"] * {
     color: #000000 !important;
 }
@@ -58,7 +60,6 @@ div[data-testid="stMetricDelta"] {
     color: #333333 !important;
 }
 
-<style>
     /* ---- Global ---- */
     .stApp {
     background: #FFFFFF;
