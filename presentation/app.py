@@ -179,7 +179,33 @@ section[data-testid="stSidebar"] [data-testid="stWidgetLabel"] {
 section[data-testid="stSidebar"] [data-testid="stFileUploader"] * {
     color: #000000 !important;
 }
+/* ---- Selectbox dropdown menu ---- */
+div[data-baseweb="popover"] {
+    background-color: #FFFFFF !important;
+}
 
+div[data-baseweb="popover"] * {
+    color: #000000 !important;
+}
+
+ul[role="listbox"] {
+    background-color: #FFFFFF !important;
+}
+
+li[role="option"] {
+    background-color: #FFFFFF !important;
+    color: #000000 !important;
+}
+
+li[role="option"]:hover {
+    background-color: #F1F3F6 !important;
+    color: #000000 !important;
+}
+
+li[role="option"][aria-selected="true"] {
+    background-color: #E8F0FE !important;
+    color: #000000 !important;
+}
     /* ---- Containers / dataframes / expanders ---- */
     div[data-testid="stDataFrame"], div[data-testid="stExpander"] {
         border-radius: 12px;
