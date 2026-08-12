@@ -44,11 +44,11 @@ CUSTOM_CSS = """
 <style>
     /* ---- Global ---- */
     .stApp {
-        background: #FAFBFC;
-    }
+    background: #FFFFFF;
+}
     html, body, [class*="css"] {
-        color: #2B2F38;
-    }
+    color: #222222 !important;
+}
     #MainMenu, footer {visibility: hidden;}
 
     /* ---- Header ---- */
@@ -119,10 +119,10 @@ CUSTOM_CSS = """
     }
 
     /* ---- Sidebar ---- */
-    section[data-testid="stSidebar"] {
-        background: #F5F7FA;
-        border-right: 1px solid #EAECF0;
-    }
+   section[data-testid="stSidebar"] {
+    background: #F5F7FA;
+    border-right: 1px solid #D9DDE5;
+}
 
     /* ---- Containers / dataframes / expanders ---- */
     div[data-testid="stDataFrame"], div[data-testid="stExpander"] {
