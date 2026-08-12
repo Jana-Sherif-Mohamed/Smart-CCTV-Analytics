@@ -41,6 +41,23 @@ st.set_page_config(
 )
 
 CUSTOM_CSS = """
+/* ---- KPI / Overview text ---- */
+div[data-testid="stMetric"] * {
+    color: #000000 !important;
+}
+
+div[data-testid="stMetricLabel"] {
+    color: #333333 !important;
+}
+
+div[data-testid="stMetricValue"] {
+    color: #000000 !important;
+}
+
+div[data-testid="stMetricDelta"] {
+    color: #333333 !important;
+}
+
 <style>
     /* ---- Global ---- */
     .stApp {
@@ -110,7 +127,7 @@ CUSTOM_CSS = """
     .section-label {
         font-size: 0.95rem;
         font-weight: 700;
-        color: #3A4150;
+        color: #000000 !important;
         text-transform: uppercase;
         letter-spacing: 0.6px;
         margin-bottom: 0.4rem;
@@ -118,10 +135,48 @@ CUSTOM_CSS = """
         padding-left: 10px;
     }
 
+    /* ---- Sidebar widget labels ---- */
+section[data-testid="stSidebar"] [data-testid="stWidgetLabel"] p {
+    color: #000000 !important;
+}
+
+section[data-testid="stSidebar"] [data-testid="stWidgetLabel"] span {
+    color: #000000 !important;
+}
+
+
     /* ---- Sidebar ---- */
    section[data-testid="stSidebar"] {
     background: #F5F7FA;
     border-right: 1px solid #D9DDE5;
+}
+/* ---- Sidebar text & controls ---- */
+section[data-testid="stSidebar"] label,
+section[data-testid="stSidebar"] p,
+section[data-testid="stSidebar"] span,
+section[data-testid="stSidebar"] div {
+    color: #000000 !important;
+}
+
+section[data-testid="stSidebar"] [data-baseweb="select"] {
+    color: #000000 !important;
+}
+
+section[data-testid="stSidebar"] [data-baseweb="select"] > div {
+    background-color: #FFFFFF !important;
+    color: #000000 !important;
+}
+
+section[data-testid="stSidebar"] input {
+    color: #000000 !important;
+}
+
+section[data-testid="stSidebar"] [data-testid="stWidgetLabel"] {
+    color: #000000 !important;
+}
+
+section[data-testid="stSidebar"] [data-testid="stFileUploader"] * {
+    color: #000000 !important;
 }
 
     /* ---- Containers / dataframes / expanders ---- */
