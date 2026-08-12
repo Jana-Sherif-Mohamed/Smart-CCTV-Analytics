@@ -106,6 +106,16 @@ section[data-testid="stSidebar"] [data-testid="stRadio"] p,
 section[data-testid="stSidebar"] [data-testid="stSelectbox"] label,
 section[data-testid="stSidebar"] [data-testid="stFileUploader"] label {
     color: #000000 !important;
+
+    /* ---- Sidebar warning messages ---- */
+section[data-testid="stSidebar"] [data-testid="stAlert"] {
+    color: #000000 !important;
+    background-color: #FFFFFF !important;
+}
+
+section[data-testid="stSidebar"] [data-testid="stAlert"] * {
+    color: #000000 !important;
+}
 }
 </style>
 """
