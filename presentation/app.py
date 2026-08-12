@@ -100,6 +100,13 @@ div[data-baseweb="popover"] li:hover {background:#F1F3F6 !important;}
 .stButton > button[kind="primary"] {background:#6FA8FF; border:none;}
 .stButton > button[kind="primary"]:hover {background:#5C97F5;}
 hr {border-color:#EAECF0 !important;}
+
+section[data-testid="stSidebar"] [data-testid="stRadio"] label,
+section[data-testid="stSidebar"] [data-testid="stRadio"] p,
+section[data-testid="stSidebar"] [data-testid="stSelectbox"] label,
+section[data-testid="stSidebar"] [data-testid="stFileUploader"] label {
+    color: #000000 !important;
+}
 </style>
 """
 
