@@ -11,7 +11,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from core.detection_model import DetectionModel, CLASS_NAMES
 from core.tracker import Tracker
-from core.analysis import AnalyticsEngine
+from core.analytics import AnalyticsEngine
 from infrastructure.config_loader import load_config
 from infrastructure.video_io import open_video, get_video_fps, create_video_writer
 
