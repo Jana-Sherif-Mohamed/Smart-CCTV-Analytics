@@ -162,4 +162,4 @@ After each run, the system produces:
 
 ## 📄 License
 
-This project is developed for academic purposes as part of a graduation project.
+This project is developed for academic purposes.
