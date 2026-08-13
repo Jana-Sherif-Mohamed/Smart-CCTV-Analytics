@@ -16,61 +16,96 @@ from infrastructure.config_loader import load_config
 from infrastructure.video_io import open_video, get_video_fps, create_video_writer
 
 # Page setup
-st.set_page_config(page_title="Smart CCTV Analytics", layout="wide")
+st.set_page_config(page_title="Smart CCTV Analytics", page_icon="🎥", layout="wide")
 st.markdown("""
 <style>
+    /* Overall page background */
+    .stApp {
+        background-color: #F4F6F9;
+    }
+
+    /* Headings */
     h1, h2, h3, h4, h5, h6 {
-        color: #222222 !important;
+        color: #1E293B !important;
+        font-weight: 700 !important;
     }
 
+    /* Regular text */
     p, label, span {
-        color: #333333 !important;
+        color: #475569 !important;
     }
 
+    /* KPI metric cards */
     .stMetric {
-        background-color: #E8E8F0;
-        padding: 15px;
-        border-radius: 10px;
+        background-color: #FFFFFF;
+        padding: 20px;
+        border-radius: 12px;
+        border: 1px solid #E2E8F0;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
     }
 
     [data-testid="stMetricLabel"] {
-        color: #333333 !important;
+        color: #64748B !important;
+        font-weight: 600 !important;
+        font-size: 14px !important;
     }
 
     [data-testid="stMetricValue"] {
-        color: #111111 !important;
+        color: #0F172A !important;
+        font-weight: 800 !important;
     }
 
+    /* Sidebar */
     [data-testid="stSidebar"] {
-        background-color: #F5F5F5;
+        background-color: #1E293B;
     }
 
     [data-testid="stSidebar"] * {
-        color: #222222 !important;
+        color: #F1F5F9 !important;
+    }
+
+    /* Start Analytics button */
+    div.stButton > button {
+        background-color: #2563EB;
+        color: white !important;
+        border-radius: 8px;
+        border: none;
+        font-weight: 600;
+        padding: 10px 0;
+    }
+
+    div.stButton > button:hover {
+        background-color: #1D4ED8;
+    }
+
+    /* Divider line */
+    hr {
+        border-color: #E2E8F0 !important;
     }
 </style>
 """, unsafe_allow_html=True)
 
+
 def main():
-    st.title("Smart CCTV Video Surveillance Dashboard")
-    st.caption("Real-time AI Object Detection, Tracking & Event Analytics")
+    st.title("🎥 Smart CCTV Video Surveillance Dashboard")
+    st.caption("🤖 Real-time AI Object Detection, Tracking & Event Analytics")
 
     config = load_config()
 
     # Sidebar Controls
-    st.sidebar.header("Control Panel")
-    video_source_type = st.sidebar.radio("Choose Input Source", ["Select Sample Video", "Upload Video File"])
+    st.sidebar.header("⚙️ Control Panel")
+    video_source_type = st.sidebar.radio("📂 Choose Input Source", ["Select Sample Video", "Upload Video File"])
 
     video_path, temp_file_path = None, None
 
     if video_source_type == "Select Sample Video":
         video_files = [f for f in os.listdir("videos") if f.lower().endswith((".mp4", ".avi", ".mov", ".mkv"))] if os.path.exists("videos") else []
         if video_files:
-            video_path = os.path.join("videos", st.sidebar.selectbox("Sample Videos", video_files))
+            video_path = os.path.join("videos", st.sidebar.selectbox("🎞️ Sample Videos", video_files))
         else:
-            st.sidebar.warning("No sample videos found in 'videos/' directory.")
+            st.sidebar.warning("⚠️ No sample videos found in 'videos/' directory.")
     else:
-        uploaded_file = st.sidebar.file_uploader("Upload a Video File", type=["mp4", "avi", "mov", "mkv"])
+        uploaded_file = st.sidebar.file_uploader("⬆️ Upload a Video File", type=["mp4", "avi", "mov", "mkv"])
         if uploaded_file:
             temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp4")
             temp_file.write(uploaded_file.read())
@@ -78,36 +113,36 @@ def main():
             video_path = temp_file_path
 
     # Model & Thresholds
-    selected_model = st.sidebar.selectbox("Select YOLO Model", ["yolo11s.pt", "yolo11n.pt", "yolo11m.pt"])
-    confidence_val = st.sidebar.slider("Confidence Threshold", 0.10, 1.00, float(config["model"].get("confidence", 0.40)), 0.05)
+    selected_model = st.sidebar.selectbox("🧠 Select YOLO Model", ["yolo11s.pt", "yolo11n.pt", "yolo11m.pt"])
+    confidence_val = st.sidebar.slider("🎯 Confidence Threshold", 0.10, 1.00, float(config["model"].get("confidence", 0.40)), 0.05)
 
     config["model"]["weights"] = selected_model
     config["model"]["confidence"] = confidence_val
 
-    start_button = st.sidebar.button("Start Analytics", type="primary", use_container_width=True)
+    start_button = st.sidebar.button("▶️ Start Analytics", type="primary", use_container_width=True)
 
     # Top KPI Cards
     col1, col2, col3, col4 = st.columns(4)
-    metric_people = col1.metric("Total People", "0")
-    metric_vehicles = col2.metric("Total Vehicles", "0")
-    metric_dwell = col3.metric("Avg Dwell Time", "0s")
-    metric_alerts = col4.metric("Security Alerts", "0")
+    metric_people = col1.metric("🚶 Total People", "0")
+    metric_vehicles = col2.metric("🚗 Total Vehicles", "0")
+    metric_dwell = col3.metric("⏱️ Avg Dwell Time", "0s")
+    metric_alerts = col4.metric("🚨 Security Alerts", "0")
 
     st.divider()
 
     # Video & Events Layout
     video_col, log_col = st.columns([2, 1])
     with video_col:
-        st.subheader("Live Annotated Video Feed")
+        st.subheader("📹 Live Annotated Video Feed")
         video_placeholder = st.empty()
     with log_col:
-        st.subheader("Real-Time Security Events Log")
+        st.subheader("📋 Real-Time Security Events Log")
         log_placeholder = st.empty()
 
     # Processing Loop
     if start_button:
         if not video_path or not os.path.exists(video_path):
-            st.error("Please select or upload a valid video file first!")
+            st.error("❌ Please select or upload a valid video file first!")
             return
 
         fps = get_video_fps(video_path)
@@ -132,6 +167,8 @@ def main():
         DETECT_EVERY = 5  # Run YOLO every 5 frames only
 
         while cap.isOpened():
+            # Frame pacing - keeps playback speed matching the real video FPS
+            frame_start_time = time.time()
             success, frame = cap.read()
             if not success:
                 break
@@ -155,10 +192,10 @@ def main():
 
                 # Update KPIs and log only on detection frames
                 summary_stats = analytics.summary()
-                metric_people.metric("Total People", str(summary_stats["total_people"]))
-                metric_vehicles.metric("Total Vehicles", str(summary_stats["total_vehicles"]))
-                metric_dwell.metric("Avg Dwell Time", f"{summary_stats['average_dwell_time_sec']}s")
-                metric_alerts.metric("Security Alerts", str(summary_stats["total_alerts"]))
+                metric_people.metric("🚶 Total People", str(summary_stats["total_people"]))
+                metric_vehicles.metric("🚗 Total Vehicles", str(summary_stats["total_vehicles"]))
+                metric_dwell.metric("⏱️ Avg Dwell Time", f"{summary_stats['average_dwell_time_sec']}s")
+                metric_alerts.metric("🚨 Security Alerts", str(summary_stats["total_alerts"]))
 
                 if events_history:
                     log_placeholder.dataframe(
@@ -167,7 +204,7 @@ def main():
                         use_container_width=True
                     )
                 else:
-                    log_placeholder.info("No security events detected yet.")
+                    log_placeholder.info("✅ No security events detected yet.")
             else:
                 # Non-detection frame: write raw frame to video but KEEP
                 # last_annotated unchanged so displayed boxes don't flicker
@@ -182,13 +219,18 @@ def main():
             if total_frames > 0:
                 progress_bar.progress(min(frame_index / total_frames, 1.0))
 
+            # Sleep just enough to match the original video's frame rate
+            elapsed = time.time() - frame_start_time
+            delay = max(0, (1 / fps) - elapsed)
+            time.sleep(delay)
+
         cap.release()
         writer.release()
 
-        st.success("Video processing completed successfully!")
+        st.success("✅ Video processing completed successfully!")
 
         # Summary & Exports
-        st.subheader("Analytics Summary & Exports")
+        st.subheader("📊 Analytics Summary & Exports")
         final_summary = analytics.summary()
         col_a, col_b = st.columns(2)
 
@@ -206,7 +248,7 @@ def main():
         with col_b:
             if events_history:
                 st.download_button(
-                    "Download Security Events (CSV)",
+                    "⬇️ Download Security Events (CSV)",
                     data=pd.DataFrame(events_history).to_csv(index=False),
                     file_name="security_events_report.csv",
                     mime="text/csv",
@@ -215,7 +257,7 @@ def main():
             if os.path.exists(output_path):
                 with open(output_path, "rb") as vid_file:
                     st.download_button(
-                        "Download Processed Video (MP4)",
+                        "⬇️ Download Processed Video (MP4)",
                         data=vid_file.read(),
                         file_name="annotated_cctv_output.mp4",
                         mime="video/mp4",
